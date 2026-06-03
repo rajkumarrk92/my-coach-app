@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coach Search</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f4f4f9; }
+        .container { max-width: 900px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        form { margin-bottom: 20px; }
+        input[type="text"] { padding: 10px; width: 250px; font-size: 16px; border: 1px solid #ccc; }
+        button { padding: 10px 15px; font-size: 16px; background-color: #007BFF; color: white; border: none; cursor: pointer; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #dddddd; text-align: left; padding: 12px; }
+        th { background-color: #007BFF; color: white; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Coach History Search System</h2>
+    <form method="POST">
+        <input type="text" name="coach_number" placeholder="Enter Coach Number" value="{{ query }}" required>
+        <button type="submit">Search</button>
+    </form>
+    {% if results is not none %}
+        {% if results|length > 0 %}
+            <table>
+                <thead>
+                    <tr>
+                        <!-- This safely grabs the column headers from the first data row -->
+                        {% for key in results[0].keys() %}
+                            <th>{{ key }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in results %}
+                        <tr>
+                            {% for value in row.values() %}
+                                <td>{{ value }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p style="color: red;">No records found for: "{{ query }}"</p>
+        {% endif %}
+    {% endif %}
+</div>
+</body>
+</html>
